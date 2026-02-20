@@ -9,6 +9,14 @@ from alembic import context
 
 # Load app models so Alembic can detect them
 import sys, os
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
+
+config = context.config
+config.set_main_option("sqlalchemy.url", os.getenv("DATABASE_URL"))
+
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from app.database import Base
 from app.models import KnowledgeItem, User  # noqa: F401
