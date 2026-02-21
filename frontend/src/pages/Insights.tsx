@@ -1,6 +1,6 @@
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  BarChart, Bar, Cell,
+  BarChart, Bar,
 } from 'recharts';
 import {
   useInsightSummary, useWeakestTopics, useRetentionTimeline,
@@ -47,7 +47,7 @@ function Widget1_RetentionTimeline() {
           <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
           <XAxis dataKey="date" tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={d => d.slice(5)} />
           <YAxis domain={[0, 100]} tick={{ fill: '#64748b', fontSize: 11 }} />
-          <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155' }} formatter={(v: number) => [`${v.toFixed(1)}%`, 'Retention']} />
+          <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155' }} formatter={(v?: number) => v !== undefined ? [`${v.toFixed(1)}%`, 'Retention'] : '-'} />
           <Area type="monotone" dataKey="retention" stroke="#3b82f6" fill="url(#retGrad)" strokeWidth={2} />
         </AreaChart>
       </ResponsiveContainer>

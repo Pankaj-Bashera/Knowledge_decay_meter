@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PlusCircle, X } from 'lucide-react';
-import { useCreateItem, ItemCreate } from '../api/queries';
+import { useCreateItem, type ItemCreate } from '../api/queries';
 import { useUserStore } from '../store/userStore';
 
 interface FormData {
@@ -39,7 +39,6 @@ export default function ItemCreateForm() {
 
   const a = watch('attention');
   const i = watch('interest');
-  const d = watch('difficulty');
   const k0Preview = (100 * (0.4 * Number(a) + 0.3 * Number(i) + 0.3 * baseMemory)).toFixed(0);
 
   return (

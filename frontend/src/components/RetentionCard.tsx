@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Brain, Clock, Zap, Trash2 } from 'lucide-react';
-import { KnowledgeItem, useDeleteItem, useSubmitReview } from '../api/queries';
+import { type KnowledgeItem, useDeleteItem, useSubmitReview } from '../api/queries';
 
 interface Props {
   item: KnowledgeItem;

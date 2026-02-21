@@ -5,7 +5,7 @@ import RetentionCard from '../components/RetentionCard';
 import ItemCreateForm from '../components/ItemCreateForm';
 import SettingsPanel from '../components/SettingsPanel';
 
-export default function Dashboard() {
+export default function DashBoard() {
   const { data: allItems   = [], isLoading: loadingAll } = useItems();
   const { data: decaying   = [], isLoading: loadingDecay } = useDecayingItems(60);
   const { data: summary } = useInsightSummary();
