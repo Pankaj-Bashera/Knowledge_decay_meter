@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, BookOpen, Zap } from 'lucide-react';
-import { KnowledgeItem, useSubmitReview } from '../api/queries';
+import { type KnowledgeItem, useSubmitReview } from '../api/queries';
 
 interface Props {
   item: KnowledgeItem;

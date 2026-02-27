@@ -65,27 +65,27 @@ export interface DailyRetention {
 export const useItems = () =>
   useQuery<KnowledgeItem[]>({
     queryKey: ['items'],
-    queryFn:  () => apiClient.get('/items/').then((r) => r.data),
+    queryFn:  () => apiClient.get('/items/').then((r: { data: any; }) => r.data),
   });
 
 export const useDecayingItems = (threshold = 60) =>
   useQuery<KnowledgeItem[]>({
     queryKey: ['items', 'decaying', threshold],
-    queryFn:  () => apiClient.get(`/items/decaying?threshold=${threshold}`).then((r) => r.data),
+    queryFn:  () => apiClient.get(`/items/decaying?threshold=${threshold}`).then((r: { data: any; }) => r.data),
     refetchInterval: 1000 * 60 * 5,   // Refresh every 5 min
   });
 
 export const useItem = (id: number) =>
   useQuery<KnowledgeItem>({
     queryKey: ['items', id],
-    queryFn:  () => apiClient.get(`/items/${id}`).then((r) => r.data),
+    queryFn:  () => apiClient.get(`/items/${id}`).then((r: { data: any; }) => r.data),
     enabled:  !!id,
   });
 
 export const useCreateItem = () => {
   const qc = useQueryClient();
   return useMutation<KnowledgeItem, Error, ItemCreate>({
-    mutationFn: (payload) => apiClient.post('/items/', payload).then((r) => r.data),
+    mutationFn: (payload) => apiClient.post('/items/', payload).then((r: { data: any; }) => r.data),
     onSuccess:  () => qc.invalidateQueries({ queryKey: ['items'] }),
   });
 };
@@ -93,7 +93,7 @@ export const useCreateItem = () => {
 export const useDeleteItem = () => {
   const qc = useQueryClient();
   return useMutation<void, Error, number>({
-    mutationFn: (id) => apiClient.delete(`/items/${id}`).then((r) => r.data),
+    mutationFn: (id) => apiClient.delete(`/items/${id}`).then((r: { data: any; }) => r.data),
     onSuccess:  () => qc.invalidateQueries({ queryKey: ['items'] }),
   });
 };
@@ -101,7 +101,7 @@ export const useDeleteItem = () => {
 export const useUpdateItem = () => {
   const qc = useQueryClient();
   return useMutation<KnowledgeItem, Error, { id: number; data: Partial<ItemCreate> }>({
-    mutationFn: ({ id, data }) => apiClient.patch(`/items/${id}`, data).then((r) => r.data),
+    mutationFn: ({ id, data }) => apiClient.patch(`/items/${id}`, data).then((r: { data: any; }) => r.data),
     onSuccess:  () => qc.invalidateQueries({ queryKey: ['items'] }),
   });
 };
@@ -112,7 +112,7 @@ export const useSubmitReview = () => {
   const qc = useQueryClient();
   return useMutation<KnowledgeItem, Error, { id: number; used_in_practice: boolean }>({
     mutationFn: ({ id, used_in_practice }) =>
-      apiClient.post(`/items/${id}/review`, { used_in_practice }).then((r) => r.data),
+      apiClient.post(`/items/${id}/review`, { used_in_practice }).then((r: { data: any; }) => r.data),
     onSuccess: (_, { id }) => {
       qc.invalidateQueries({ queryKey: ['items'] });
       qc.invalidateQueries({ queryKey: ['items', id] });
@@ -125,55 +125,55 @@ export const useSubmitReview = () => {
 export const useInsightSummary = () =>
   useQuery<InsightSummary>({
     queryKey: ['insights', 'summary'],
-    queryFn:  () => apiClient.get('/insights/summary').then((r) => r.data),
+    queryFn:  () => apiClient.get('/insights/summary').then((r: { data: any; }) => r.data),
   });
 
 export const useWeakestTopics = (limit = 10) =>
   useQuery<WeakItem[]>({
     queryKey: ['insights', 'weakest', limit],
-    queryFn:  () => apiClient.get(`/insights/weakest?limit=${limit}`).then((r) => r.data),
+    queryFn:  () => apiClient.get(`/insights/weakest?limit=${limit}`).then((r: { data: any; }) => r.data),
   });
 
 export const useHardestTopics = (limit = 10) =>
   useQuery<WeakItem[]>({
     queryKey: ['insights', 'hardest', limit],
-    queryFn:  () => apiClient.get(`/insights/hardest?limit=${limit}`).then((r) => r.data),
+    queryFn:  () => apiClient.get(`/insights/hardest?limit=${limit}`).then((r: { data: any; }) => r.data),
   });
 
 export const useRetentionTimeline = () =>
   useQuery<DailyRetention[]>({
     queryKey: ['insights', 'timeline'],
-    queryFn:  () => apiClient.get('/insights/timeline').then((r) => r.data),
+    queryFn:  () => apiClient.get('/insights/timeline').then((r: { data: any; }) => r.data),
   });
 
 export const useUpcomingForgets = (days = 30) =>
   useQuery({
     queryKey: ['insights', 'upcoming-forgets', days],
-    queryFn:  () => apiClient.get(`/insights/upcoming-forgets?days=${days}`).then((r) => r.data),
+    queryFn:  () => apiClient.get(`/insights/upcoming-forgets?days=${days}`).then((r: { data: any; }) => r.data),
   });
 
 export const useMostReviewed = (limit = 10) =>
   useQuery({
     queryKey: ['insights', 'most-reviewed', limit],
-    queryFn:  () => apiClient.get(`/insights/most-reviewed?limit=${limit}`).then((r) => r.data),
+    queryFn:  () => apiClient.get(`/insights/most-reviewed?limit=${limit}`).then((r: { data: any; }) => r.data),
   });
 
 export const useSleepImpact = () =>
   useQuery({
     queryKey: ['insights', 'sleep-impact'],
-    queryFn:  () => apiClient.get('/insights/sleep-impact').then((r) => r.data),
+    queryFn:  () => apiClient.get('/insights/sleep-impact').then((r: { data: any; }) => r.data),
   });
 
 // ── Auth ───────────────────────────────────────────────────────────────────────
 
 export const useLogin = () =>
   useMutation<{ access_token: string }, Error, { username: string; password: string }>({
-    mutationFn: (creds) => apiClient.post('/auth/login', creds).then((r) => r.data),
+    mutationFn: (creds) => apiClient.post('/auth/login', creds).then((r: { data: any; }) => r.data),
     onSuccess: (data) => localStorage.setItem('jwt_token', data.access_token),
   });
 
 export const useRegister = () =>
   useMutation<{ access_token: string }, Error, { username: string; password: string }>({
-    mutationFn: (creds) => apiClient.post('/auth/register', creds).then((r) => r.data),
+    mutationFn: (creds) => apiClient.post('/auth/register', creds).then((r: { data: any; }) => r.data),
     onSuccess: (data) => localStorage.setItem('jwt_token', data.access_token),
   });

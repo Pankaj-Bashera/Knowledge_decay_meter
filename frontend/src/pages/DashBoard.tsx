@@ -5,7 +5,7 @@ import RetentionCard from '../components/RetentionCard';
 import ItemCreateForm from '../components/ItemCreateForm';
 import SettingsPanel from '../components/SettingsPanel';
 
-export default function Dashboard() {
+export default function DashBoard() {
   const { data: allItems   = [], isLoading: loadingAll } = useItems();
   const { data: decaying   = [], isLoading: loadingDecay } = useDecayingItems(60);
   const { data: summary } = useInsightSummary();
@@ -15,7 +15,7 @@ export default function Dashboard() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#f1f5f9' }}>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#454545' }}>
             🧠 Knowledge Decay Tracker
           </h1>
           <p style={{ color: '#64748b', marginTop: 4 }}>

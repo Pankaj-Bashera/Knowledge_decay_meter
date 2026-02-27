@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Brain, LayoutDashboard, BookOpen, BarChart2 } from 'lucide-react';
-import Dashboard from './pages/Dashboard';
+import DashBoard from './pages/DashBoard';
 import AllItems  from './pages/AllItems';
 import Insights  from './pages/Insights';
 
@@ -59,7 +59,7 @@ export default function App() {
           {/* Main content */}
           <main style={{ flex: 1, overflowY: 'auto' }}>
             <Routes>
-              <Route path="/"        element={<Dashboard />} />
+              <Route path="/"        element={<DashBoard />} />
               <Route path="/items"   element={<AllItems />} />
               <Route path="/insights" element={<Insights />} />
             </Routes>
