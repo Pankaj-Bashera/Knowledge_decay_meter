@@ -77,7 +77,7 @@ export default function ItemCreateForm() {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-                <h2 style={{ fontSize: 18, fontWeight: 700 }}>Add Knowledge Item</h2>
+                <h2 style={{ fontSize: 18, fontWeight: 700, color:'#f1f1f9' }}>Add Knowledge Item</h2>
                 <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8' }}>
                   <X size={20} />
                 </button>

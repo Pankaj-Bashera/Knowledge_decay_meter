@@ -15,7 +15,7 @@ export default function DashBoard() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#f1f5f9' }}>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#454545' }}>
             🧠 Knowledge Decay Tracker
           </h1>
           <p style={{ color: '#64748b', marginTop: 4 }}>

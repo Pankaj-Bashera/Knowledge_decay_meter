@@ -42,7 +42,7 @@ export default function SettingsPanel() {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                <h2 style={{ fontSize: 18, fontWeight: 700 }}>User Settings</h2>
+                <h2 style={{ fontSize: 18, fontWeight: 700, color: '#f1f1f9' }}>User Settings</h2>
                 <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8' }}>
                   <X size={20} />
                 </button>
