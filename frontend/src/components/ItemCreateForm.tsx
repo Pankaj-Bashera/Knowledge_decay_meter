@@ -45,14 +45,9 @@ export default function ItemCreateForm() {
     <>
       <button
         onClick={() => setOpen(true)}
-        style={{
-          display: 'flex', alignItems: 'center', gap: 8,
-          background: '#2563eb', color: '#fff', border: 'none',
-          borderRadius: 8, padding: '10px 18px', cursor: 'pointer',
-          fontWeight: 600, fontSize: 14,
-        }}
+        className="brutalist-button"
       >
-        <PlusCircle size={16} /> Add Knowledge Item
+        <PlusCircle size={20} strokeWidth={3} /> INITIALIZE ASSET
       </button>
 
       <AnimatePresence>
@@ -72,14 +67,14 @@ export default function ItemCreateForm() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               style={{
-                background: '#1e293b', borderRadius: 16, padding: '2rem',
-                width: '100%', maxWidth: 520, border: '1px solid #334155',
+                background: 'var(--color-graphite)', border: '3px solid var(--color-lime)', padding: '3rem',
+                width: '100%', maxWidth: 520, boxShadow: '8px 8px 0px var(--color-lime)'
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-                <h2 style={{ fontSize: 18, fontWeight: 700, color:'#f1f1f9' }}>Add Knowledge Item</h2>
-                <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8' }}>
-                  <X size={20} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 32 }}>
+                <h2 style={{ fontSize: 28, fontWeight: 900, color:'var(--color-cream)', textTransform: 'uppercase' }}>INITIALIZE ASSET</h2>
+                <button onClick={() => setOpen(false)} style={{ background: 'none', border: '3px solid var(--color-cream)', cursor: 'pointer', color: 'var(--color-cream)', padding: 4 }}>
+                  <X size={24} strokeWidth={3} />
                 </button>
               </div>
 
@@ -107,23 +102,20 @@ export default function ItemCreateForm() {
                 <SliderField label="Difficulty" description="How complex is this topic?" name="difficulty" register={register} watch={watch} />
 
                 <div style={{
-                  background: '#0f172a', borderRadius: 8, padding: 12, marginBottom: 20,
+                  background: 'var(--color-void)', border: '3px solid var(--color-cream)', padding: 16, marginBottom: 32,
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 }}>
-                  <span style={{ fontSize: 13, color: '#94a3b8' }}>Predicted initial encoding (K₀)</span>
-                  <span style={{ fontSize: 20, fontWeight: 800, color: '#3b82f6' }}>{k0Preview}</span>
+                  <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--color-cream)', textTransform: 'uppercase' }}>PREDICTED ENCODING (K₀)</span>
+                  <span style={{ fontSize: 32, fontWeight: 900, color: 'var(--color-lime)' }}>{k0Preview}</span>
                 </div>
 
                 <button
                   type="submit"
                   disabled={createItem.isPending}
-                  style={{
-                    width: '100%', padding: '12px', background: '#2563eb',
-                    color: '#fff', border: 'none', borderRadius: 8,
-                    fontSize: 15, fontWeight: 600, cursor: 'pointer',
-                  }}
+                  className="brutalist-button"
+                  style={{ width: '100%', justifyContent: 'center', fontSize: 18 }}
                 >
-                  {createItem.isPending ? 'Creating…' : 'Create Item'}
+                  {createItem.isPending ? 'PROCESSING...' : 'CONFIRM ENTRY'}
                 </button>
               </form>
             </motion.div>
@@ -136,8 +128,8 @@ export default function ItemCreateForm() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div style={{ marginBottom: 16 }}>
-      <label style={{ display: 'block', fontSize: 13, fontWeight: 500, color: '#cbd5e1', marginBottom: 6 }}>
+    <div style={{ marginBottom: 24 }}>
+      <label style={{ display: 'block', fontSize: 14, fontWeight: 800, color: 'var(--color-cream)', marginBottom: 8, textTransform: 'uppercase' }}>
         {label}
       </label>
       {children}
@@ -151,29 +143,29 @@ function SliderField({ label, description, name, register, watch }: {
 }) {
   const val = watch(name);
   return (
-    <div style={{ marginBottom: 16 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+    <div style={{ marginBottom: 24 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
         <div>
-          <span style={{ fontSize: 13, fontWeight: 500, color: '#cbd5e1' }}>{label}</span>
-          <span style={{ fontSize: 11, color: '#64748b', marginLeft: 8 }}>{description}</span>
+          <span style={{ fontSize: 14, fontWeight: 900, color: 'var(--color-cream)', textTransform: 'uppercase' }}>{label}</span>
+          <span style={{ fontSize: 12, color: 'var(--color-cream)', opacity: 0.8, marginLeft: 8, textTransform: 'uppercase' }}>{description}</span>
         </div>
-        <span style={{ fontSize: 14, fontWeight: 700, color: '#3b82f6' }}>{Number(val).toFixed(1)}</span>
+        <span style={{ fontSize: 16, fontWeight: 900, color: 'var(--color-violet)' }}>{Number(val).toFixed(1)}</span>
       </div>
       <input
         type="range" min="0" max="1" step="0.1"
         {...register(name)}
-        style={{ width: '100%', accentColor: '#3b82f6' }}
+        style={{ width: '100%', accentColor: 'var(--color-violet)' }}
       />
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#475569' }}>
-        <span>Low</span><span>High</span>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontWeight: 700, color: 'var(--color-cream)', textTransform: 'uppercase', marginTop: 4 }}>
+        <span>MIN</span><span>MAX</span>
       </div>
     </div>
   );
 }
 
 const inputStyle: React.CSSProperties = {
-  width: '100%', padding: '10px 12px',
-  background: '#0f172a', border: '1px solid #334155',
-  borderRadius: 8, color: '#e2e8f0', fontSize: 14,
-  outline: 'none',
+  width: '100%', padding: '12px 16px',
+  background: 'var(--color-void)', border: '3px solid var(--color-cream)',
+  color: 'var(--color-lime)', fontSize: 16, fontWeight: 800,
+  outline: 'none', textTransform: 'uppercase', fontFamily: 'Inter, sans-serif'
 };
