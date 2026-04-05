@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { Brain, Clock, Zap, Trash2 } from 'lucide-react';
-import { KnowledgeItem, useDeleteItem, useSubmitReview } from '../api/queries';
+import { Skull, Clock, Zap, Trash2, BookOpen } from 'lucide-react';
+import { type KnowledgeItem, useDeleteItem, useSubmitReview } from '../api/queries';
 
 interface Props {
   item: KnowledgeItem;
@@ -8,17 +8,15 @@ interface Props {
 }
 
 function retentionColor(r: number): string {
-  if (r >= 70) return '#22c55e';
-  if (r >= 50) return '#eab308';
-  if (r >= 30) return '#f97316';
-  return '#ef4444';
+  if (r >= 70) return 'var(--color-lime)';
+  if (r >= 40) return 'var(--color-cream)';
+  return '#FF3333';
 }
 
 function retentionBg(r: number): string {
-  if (r >= 70) return 'rgba(34,197,94,0.08)';
-  if (r >= 50) return 'rgba(234,179,8,0.08)';
-  if (r >= 30) return 'rgba(249,115,22,0.08)';
-  return 'rgba(239,68,68,0.10)';
+  if (r >= 70) return 'var(--color-void)';
+  if (r >= 40) return 'var(--color-void)';
+  return 'var(--color-void)';
 }
 
 export default function RetentionCard({ item, index = 0 }: Props) {
@@ -37,89 +35,91 @@ export default function RetentionCard({ item, index = 0 }: Props) {
       transition={{ delay: index * 0.05 }}
       style={{
         background: retentionBg(item.current_retention),
-        border: `1px solid ${color}33`,
-        borderRadius: 12,
-        padding: '1.25rem',
+        border: `3px solid ${color}`,
+        padding: '1.5rem',
         position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
         <div style={{ flex: 1 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 600, color: '#f1f5f9', marginBottom: 4 }}>
+          <h3 style={{ fontSize: 22, fontWeight: 900, color: 'var(--color-cream)', textTransform: 'uppercase', marginBottom: 8, lineHeight: 1.1 }}>
             {item.topic}
           </h3>
           {item.content && (
-            <p style={{ fontSize: 12, color: '#94a3b8', lineHeight: 1.4 }}>
+            <p style={{ fontSize: 14, color: 'var(--color-cream)', opacity: 0.8, lineHeight: 1.5, fontFamily: 'monospace' }}>
               {item.content.slice(0, 80)}{item.content.length > 80 ? '…' : ''}
             </p>
           )}
         </div>
         <button
           onClick={() => deleteItem.mutate(item.id)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', padding: 4 }}
+          style={{ background: 'var(--color-graphite)', border: '3px solid var(--color-cream)', cursor: 'pointer', color: 'var(--color-cream)', padding: 8, transition: '0.1s' }}
+          onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#FF3333'; e.currentTarget.style.color = 'var(--color-void)'; e.currentTarget.style.borderColor = '#FF3333'; }}
+          onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'var(--color-graphite)'; e.currentTarget.style.color = 'var(--color-cream)'; e.currentTarget.style.borderColor = 'var(--color-cream)'; }}
         >
-          <Trash2 size={14} />
+          <Trash2 size={20} strokeWidth={3} />
         </button>
       </div>
 
       {/* Retention bar */}
-      <div style={{ marginBottom: 12 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-          <span style={{ fontSize: 11, color: '#94a3b8' }}>Retention</span>
-          <span style={{ fontSize: 14, fontWeight: 700, color }}>
-            {item.current_retention.toFixed(1)}%
-          </span>
+      <div style={{ marginBottom: 24 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, textTransform: 'uppercase', fontWeight: 900, fontSize: 13, letterSpacing: '0.05em' }}>
+          <span style={{ color: 'var(--color-cream)' }}>RETENTION</span>
+          <span style={{ color }}>{item.current_retention.toFixed(1)}%</span>
         </div>
-        <div style={{ height: 6, background: '#1e293b', borderRadius: 3 }}>
+        <div style={{ height: 24, border: '3px solid var(--color-cream)', background: 'var(--color-graphite)', position: 'relative' }}>
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${Math.min(item.current_retention, 100)}%` }}
             transition={{ duration: 0.6, delay: index * 0.05 }}
-            style={{ height: '100%', background: color, borderRadius: 3 }}
+            style={{ height: '100%', background: color }}
           />
         </div>
       </div>
 
       {/* Stats row */}
-      <div style={{ display: 'flex', gap: 16, marginBottom: 14 }}>
-        <Stat icon={<Clock size={12} />} label="Half-life" value={`${item.half_life_days.toFixed(1)}d`} />
-        <Stat icon={<Brain size={12} />} label="K₀" value={item.k0_initial_strength.toFixed(0)} />
-        <Stat icon={<Zap size={12} />} label="Forget in" value={`${item.days_to_forget.toFixed(0)}d`} />
-        <Stat icon={<Clock size={12} />} label="Last review" value={`${item.days_since_review.toFixed(0)}d ago`} />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
+        <Stat icon={<Clock size={16} strokeWidth={3} />} label="HALF-LIFE" value={`${item.half_life_days.toFixed(1)}D`} />
+        <Stat icon={<Skull size={16} strokeWidth={3} />} label="K₀ STRENGTH" value={item.k0_initial_strength.toFixed(0)} />
+        <Stat icon={<Zap size={16} strokeWidth={3} />} label="FORGET IN" value={`${item.days_to_forget.toFixed(0)}D`} />
+        <Stat icon={<Clock size={16} strokeWidth={3} />} label="LST REVISION" value={`${item.days_since_review.toFixed(0)}D`} />
       </div>
 
       {/* Review buttons */}
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 'auto' }}>
         <button
+          className="brutalist-button"
+          style={{ justifyContent: 'center', background: 'var(--color-violet)', color: 'var(--color-cream)' }}
           onClick={() => handleReview(false)}
           disabled={submitReview.isPending}
-          style={btnStyle('#1e40af', '#3b82f6')}
         >
-          📖 Reviewed
+          <BookOpen size={16} strokeWidth={3} /> REVIEW
         </button>
         <button
+          className="brutalist-button"
+          style={{ justifyContent: 'center' }}
           onClick={() => handleReview(true)}
           disabled={submitReview.isPending}
-          style={btnStyle('#14532d', '#22c55e')}
         >
-          ⚡ Used in Practice
+          <Zap size={16} strokeWidth={3} /> USED X
         </button>
       </div>
 
-      {/* Pulse badge for critical items */}
+      {/* Badge */}
       {item.half_life_days < 2 && (
-        <motion.div
-          animate={{ scale: [1, 1.15, 1] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
+        <div
           style={{
-            position: 'absolute', top: 10, right: 36,
-            background: '#ef4444', borderRadius: 99,
-            padding: '2px 8px', fontSize: 10, color: '#fff', fontWeight: 700,
+            position: 'absolute', top: -14, right: -14,
+            background: '#FF3333', border: '3px solid var(--color-void)',
+            padding: '4px 12px', fontSize: 14, color: 'var(--color-void)', fontWeight: 900,
+            transform: 'rotate(10deg)'
           }}
         >
           CRITICAL
-        </motion.div>
+        </div>
       )}
     </motion.div>
   );
@@ -127,20 +127,11 @@ export default function RetentionCard({ item, index = 0 }: Props) {
 
 function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-      <span style={{ color: '#64748b' }}>{icon}</span>
-      <div>
-        <div style={{ fontSize: 10, color: '#64748b' }}>{label}</div>
-        <div style={{ fontSize: 12, fontWeight: 600, color: '#cbd5e1' }}>{value}</div>
+    <div style={{ border: '3px solid var(--color-cream)', padding: '8px 12px', background: 'var(--color-graphite)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--color-cream)', marginBottom: 4, fontSize: 11, fontWeight: 900, textTransform: 'uppercase' }}>
+        {icon} {label}
       </div>
+      <div style={{ fontSize: 20, fontWeight: 900, color: 'var(--color-lime)', letterSpacing: '-0.02em' }}>{value}</div>
     </div>
   );
-}
-
-function btnStyle(bg: string, border: string): React.CSSProperties {
-  return {
-    flex: 1, padding: '6px 10px', fontSize: 11, fontWeight: 600,
-    background: bg + '33', border: `1px solid ${border}66`,
-    borderRadius: 6, color: border, cursor: 'pointer',
-  };
 }

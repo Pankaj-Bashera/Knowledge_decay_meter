@@ -1,1 +1,65 @@
 @import "tailwindcss";
+
+@theme {
+  /* Quad Colors */
+  --color-void: #121212;
+  --color-graphite: #1A1A1A;
+  --color-cream: #F4F4F0;
+  --color-lime: #DFFF00;
+  --color-violet: #5D3FD3;
+
+  /* Brutalist properties */
+  --radius-none: 0px;
+  --border-width-thick: 3px;
+  --border-width-standard: 2px;
+}
+
+body {
+  background-color: var(--color-void);
+  color: var(--color-cream);
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Brutalist Utility Classes */
+.brutalist-card {
+  background-color: var(--color-graphite);
+  border: 3px solid var(--color-cream);
+  padding: 1.5rem;
+  transition: all 0.1s ease-in-out;
+}
+.brutalist-card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 4px 4px 0px var(--color-lime);
+}
+
+.brutalist-button {
+  background-color: var(--color-lime);
+  color: var(--color-void);
+  border: 3px solid var(--color-cream);
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.brutalist-button:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 4px 4px 0px var(--color-violet);
+}
+.brutalist-button:active {
+  transform: translate(0px, 0px);
+  box-shadow: 0px 0px 0px var(--color-violet);
+}
+
+.brutalist-header {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+}

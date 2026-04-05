@@ -22,28 +22,28 @@ export default function AllItems() {
     });
 
   return (
-    <div style={{ padding: '2rem', maxWidth: 1200, margin: '0 auto' }}>
-      <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>📚 All Items</h1>
-      <p style={{ color: '#64748b', marginBottom: 24 }}>{items.length} knowledge items tracked</p>
+    <div style={{ padding: '3rem', maxWidth: 1400, margin: '0 auto' }}>
+      <h1 className="brutalist-header" style={{ fontSize: 48, marginBottom: 8, color: 'var(--color-cream)' }}>DATABASE LOGS</h1>
+      <p style={{ color: 'var(--color-lime)', marginBottom: 32, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{items.length} ASSETS REGISTERED</p>
 
       {/* Controls */}
-      <div style={{ display: 'flex', gap: 12, marginBottom: 24, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 16, marginBottom: 32, flexWrap: 'wrap' }}>
         <input
-          placeholder="Search topics…"
+          placeholder="QUERY TOPIC..."
           value={filter}
           onChange={e => setFilter(e.target.value)}
           style={{
-            flex: 1, minWidth: 200, padding: '8px 14px',
-            background: '#1e293b', border: '1px solid #334155',
-            borderRadius: 8, color: '#e2e8f0', fontSize: 14,
+            flex: 1, minWidth: 200, padding: '12px 16px',
+            background: 'var(--color-graphite)', border: '3px solid var(--color-cream)',
+            color: 'var(--color-lime)', fontSize: 16, fontWeight: 900, textTransform: 'uppercase'
           }}
         />
         <select
           value={sortBy}
           onChange={e => setSortBy(e.target.value as SortKey)}
           style={{
-            padding: '8px 14px', background: '#1e293b', border: '1px solid #334155',
-            borderRadius: 8, color: '#e2e8f0', fontSize: 14,
+            padding: '12px 16px', background: 'var(--color-lime)', border: '3px solid var(--color-cream)',
+            color: 'var(--color-void)', fontSize: 16, fontWeight: 900, textTransform: 'uppercase', cursor: 'pointer'
           }}
         >
           <option value="retention">Sort: Retention ↑</option>
@@ -54,11 +54,11 @@ export default function AllItems() {
       </div>
 
       {isLoading ? (
-        <p style={{ color: '#64748b' }}>Loading…</p>
+        <p style={{ color: 'var(--color-lime)', fontWeight: 900 }}>LOADING_DATA...</p>
       ) : sorted.length === 0 ? (
-        <p style={{ color: '#64748b' }}>No items found.</p>
+        <p style={{ color: 'var(--color-cream)', fontWeight: 900 }}>EMPTY. NO RECORDS FOUND.</p>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: 24 }}>
           {sorted.map((item, i) => (
             <div key={item.id} onClick={() => setReviewing(item)} style={{ cursor: 'pointer' }}>
               <RetentionCard item={item} index={i} />

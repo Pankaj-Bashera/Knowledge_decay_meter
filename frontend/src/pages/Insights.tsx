@@ -1,6 +1,6 @@
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  BarChart, Bar, Cell,
+  BarChart, Bar,
 } from 'recharts';
 import {
   useInsightSummary, useWeakestTopics, useRetentionTimeline,
@@ -9,9 +9,9 @@ import {
 
 export default function Insights() {
   return (
-    <div style={{ padding: '2rem', maxWidth: 1200, margin: '0 auto' }}>
-      <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4 }}>📊 Insights</h1>
-      <p style={{ color: '#64748b', marginBottom: 32 }}>Analytics across all 7 insight endpoints</p>
+    <div style={{ padding: '3rem', maxWidth: 1400, margin: '0 auto' }}>
+      <h1 className="brutalist-header" style={{ fontSize: 48, marginBottom: 8, color: 'var(--color-cream)' }}>SYSTEM INSIGHTS</h1>
+      <p style={{ color: 'var(--color-violet)', marginBottom: 32, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Telemetry & Decay Projections</p>
 
       <div style={{ display: 'grid', gap: 24 }}>
         <Widget1_RetentionTimeline />
@@ -35,20 +35,20 @@ export default function Insights() {
 function Widget1_RetentionTimeline() {
   const { data = [] } = useRetentionTimeline();
   return (
-    <Card title="📈 Retention Timeline (30 days)" subtitle="Average retention across all items">
-      <ResponsiveContainer width="100%" height={220}>
+    <Card title="RETENTION TIMELINE (30D)" subtitle="SYSTEM-WIDE AVERAGE ASSAY">
+      <ResponsiveContainer width="100%" height={260}>
         <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="retGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%"  stopColor="#3b82f6" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+              <stop offset="5%"  stopColor="var(--color-lime)" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="var(--color-lime)" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-          <XAxis dataKey="date" tick={{ fill: '#64748b', fontSize: 11 }} tickFormatter={d => d.slice(5)} />
-          <YAxis domain={[0, 100]} tick={{ fill: '#64748b', fontSize: 11 }} />
-          <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155' }} formatter={(v: number) => [`${v.toFixed(1)}%`, 'Retention']} />
-          <Area type="monotone" dataKey="retention" stroke="#3b82f6" fill="url(#retGrad)" strokeWidth={2} />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--color-graphite)" />
+          <XAxis dataKey="date" tick={{ fill: 'var(--color-cream)', fontSize: 13, fontWeight: 700 }} tickFormatter={d => d.slice(5)} />
+          <YAxis domain={[0, 100]} tick={{ fill: 'var(--color-cream)', fontSize: 13, fontWeight: 700 }} />
+          <Tooltip contentStyle={{ background: 'var(--color-void)', border: '3px solid var(--color-lime)', color: 'var(--color-lime)', fontWeight: 900, textTransform: 'uppercase' }} formatter={(v?: number) => v !== undefined ? [`${v.toFixed(1)}%`, 'RETENTION'] : '-'} />
+          <Area type="monotone" dataKey="retention" stroke="var(--color-lime)" fill="url(#retGrad)" strokeWidth={3} />
         </AreaChart>
       </ResponsiveContainer>
     </Card>
@@ -60,17 +60,17 @@ function Widget1_RetentionTimeline() {
 function Widget2_WeakestTopics() {
   const { data = [] } = useWeakestTopics(8);
   return (
-    <Card title="🔴 Weakest Topics" subtitle="Sorted by lowest retention">
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <Card title="WEAKEST LINKS" subtitle="SORTED BY CRITICAL DECAY">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {data.map(item => (
-          <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ flex: 1, fontSize: 13, color: '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ flex: 1, fontSize: 14, fontWeight: 900, textTransform: 'uppercase', color: 'var(--color-cream)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {item.topic}
             </div>
-            <div style={{ width: 80, height: 6, background: '#0f172a', borderRadius: 3, flexShrink: 0 }}>
-              <div style={{ height: '100%', width: `${item.retention}%`, background: retColor(item.retention), borderRadius: 3 }} />
+            <div style={{ width: 100, height: 16, border: '3px solid var(--color-void)', background: 'var(--color-graphite)', flexShrink: 0 }}>
+              <div style={{ height: '100%', width: `${item.retention}%`, background: retColor(item.retention) }} />
             </div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: retColor(item.retention), width: 42, textAlign: 'right', flexShrink: 0 }}>
+            <div style={{ fontSize: 14, fontWeight: 900, color: retColor(item.retention), width: 48, textAlign: 'right', flexShrink: 0 }}>
               {item.retention}%
             </div>
           </div>
@@ -86,15 +86,15 @@ function Widget2_WeakestTopics() {
 function Widget3_HardestTopics() {
   const { data = [] } = useHardestTopics(8);
   return (
-    <Card title="⚡ Fastest Decaying" subtitle="Shortest half-life (needs most review)">
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <Card title="FASTEST DECAYING" subtitle="SHORTEST HALF-LIFE (h/L)">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {data.map(item => (
           <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: 13, color: '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
+            <span style={{ fontSize: 14, fontWeight: 900, textTransform: 'uppercase', color: 'var(--color-cream)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
               {item.topic}
             </span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#f97316', flexShrink: 0, marginLeft: 8 }}>
-              t½ = {item.half_life}d
+            <span style={{ fontSize: 16, fontWeight: 900, color: '#FF3333', flexShrink: 0, marginLeft: 12 }}>
+              t½ = {item.half_life}D
             </span>
           </div>
         ))}
@@ -109,18 +109,18 @@ function Widget3_HardestTopics() {
 function Widget4_UpcomingForgets() {
   const { data = [] } = useUpcomingForgets(30);
   return (
-    <Card title="🗓️ Upcoming Forgets (30 days)" subtitle="Items that will drop below 10% retention">
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <Card title="UPCOMING FORGETS (30D)" subtitle="PROJECTED DROP BELOW 10%">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {(data as any[]).map(item => (
           <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 13, color: '#e2e8f0' }}>{item.topic}</span>
+            <span style={{ fontSize: 14, fontWeight: 900, textTransform: 'uppercase', color: 'var(--color-cream)' }}>{item.topic}</span>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 12, color: '#ef4444', fontWeight: 600 }}>{item.forget_date}</div>
-              <div style={{ fontSize: 11, color: '#64748b' }}>{item.days_left}d left</div>
+              <div style={{ fontSize: 16, color: '#FF3333', fontWeight: 900 }}>{item.forget_date}</div>
+              <div style={{ fontSize: 12, color: 'var(--color-cream)', fontWeight: 700, letterSpacing: '0.1em' }}>T-MINUS {item.days_left}D</div>
             </div>
           </div>
         ))}
-        {data.length === 0 && <p style={{ color: '#22c55e', fontSize: 13 }}>✅ Nothing at risk in the next 30 days!</p>}
+        {data.length === 0 && <p style={{ color: 'var(--color-lime)', fontSize: 14, fontWeight: 900 }}>ALL SYSTEMS STABLE FOR 30D</p>}
       </div>
     </Card>
   );
@@ -131,16 +131,16 @@ function Widget4_UpcomingForgets() {
 function Widget5_MostReviewed() {
   const { data = [] } = useMostReviewed(8);
   return (
-    <Card title="🏆 Most Reviewed" subtitle="Highest combined Rf + U frequency">
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <Card title="MOST REVIEWED" subtitle="MAXIMUM USAGE FREQUENCY">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {(data as any[]).map(item => (
           <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: 13, color: '#e2e8f0', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <span style={{ fontSize: 14, fontWeight: 900, textTransform: 'uppercase', color: 'var(--color-cream)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {item.topic}
             </span>
-            <div style={{ display: 'flex', gap: 8, flexShrink: 0, marginLeft: 8 }}>
-              <Badge label="Rf" value={item.revision_frequency.toFixed(2)} color="#3b82f6" />
-              <Badge label="U"  value={item.usage_frequency.toFixed(2)}    color="#22c55e" />
+            <div style={{ display: 'flex', gap: 8, flexShrink: 0, marginLeft: 12 }}>
+              <Badge label="Rf" value={item.revision_frequency.toFixed(2)} color="var(--color-lime)" />
+              <Badge label="U"  value={item.usage_frequency.toFixed(2)}    color="var(--color-violet)" />
             </div>
           </div>
         ))}
@@ -163,16 +163,16 @@ function Widget6_SleepImpact() {
   }));
 
   return (
-    <Card title="😴 Sleep Impact on Decay" subtitle="How poor sleep amplifies forgetting rate (k × 100) — top 5 most affected topics">
+    <Card title="SLEEP IMPACT METRICS" subtitle="IMPACT OF SLEEP DEPRIVATION ON FORGETTING RATE (k × 100)">
       {chartData.length > 0 ? (
-        <ResponsiveContainer width="100%" height={200}>
+        <ResponsiveContainer width="100%" height={240}>
           <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-            <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 11 }} angle={-20} textAnchor="end" />
-            <YAxis tick={{ fill: '#64748b', fontSize: 11 }} />
-            <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155' }} />
-            <Bar dataKey="goodSleep" name="Good sleep (S=0.9)" fill="#22c55e" radius={[4,4,0,0]} />
-            <Bar dataKey="poorSleep" name="Poor sleep (S=0.3)" fill="#ef4444" radius={[4,4,0,0]} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-cream)" opacity={0.2} />
+            <XAxis dataKey="name" tick={{ fill: 'var(--color-cream)', fontSize: 12, fontWeight: 900 }} angle={-20} textAnchor="end" />
+            <YAxis tick={{ fill: 'var(--color-cream)', fontSize: 12, fontWeight: 900 }} />
+            <Tooltip contentStyle={{ background: 'var(--color-void)', border: '3px solid var(--color-lime)', color: 'var(--color-lime)', fontWeight: 900, textTransform: 'uppercase' }} />
+            <Bar dataKey="goodSleep" name="GOOD SLEEP (S=0.9)" fill="var(--color-violet)" />
+            <Bar dataKey="poorSleep" name="POOR SLEEP (S=0.3)" fill="#FF3333" />
           </BarChart>
         </ResponsiveContainer>
       ) : <Empty />}
@@ -186,14 +186,14 @@ function Widget7_Summary() {
   const { data } = useInsightSummary();
   if (!data) return null;
   return (
-    <Card title="📋 Summary Statistics" subtitle="Across all tracked knowledge items">
+    <Card title="SUMMARY STATISTICS" subtitle="GLOBAL ARRAY METRICS">
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
-        <StatBox label="Total items"     value={data.total_items}             />
-        <StatBox label="Avg retention"   value={`${data.avg_retention}%`}    />
-        <StatBox label="Avg half-life"   value={`${data.avg_half_life}d`}    />
-        <StatBox label="Below 60%"       value={data.items_below_60}          color="#f97316" />
-        <StatBox label="Below 40%"       value={data.items_below_40}          color="#ef4444" />
-        <StatBox label="Near floor"      value={data.items_near_floor}        color="#94a3b8" />
+        <StatBox label="TOTAL LOGS"     value={data.total_items}             />
+        <StatBox label="AVG RETENTION"   value={`${data.avg_retention}%`}    />
+        <StatBox label="AVG HALF-LIFE"   value={`${data.avg_half_life}D`}    />
+        <StatBox label="BELOW .60"       value={data.items_below_60}          color="var(--color-lime)" />
+        <StatBox label="CRITICAL (.40)"       value={data.items_below_40}          color="#FF3333" />
+        <StatBox label="FLOOR WARNING"      value={data.items_near_floor}        color="var(--color-violet)" />
       </div>
     </Card>
   );
@@ -203,39 +203,38 @@ function Widget7_Summary() {
 
 function Card({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   return (
-    <div style={{ background: '#1e293b', borderRadius: 14, padding: '1.5rem', border: '1px solid #334155' }}>
-      <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 4 }}>{title}</h3>
-      {subtitle && <p style={{ fontSize: 12, color: '#64748b', marginBottom: 16 }}>{subtitle}</p>}
+    <div style={{ background: 'var(--color-graphite)', border: '3px solid var(--color-cream)', padding: '2rem' }}>
+      <h3 style={{ fontSize: 24, fontWeight: 900, marginBottom: 8, color: 'var(--color-cream)', textTransform: 'uppercase' }}>{title}</h3>
+      {subtitle && <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.05em', color: 'var(--color-lime)', marginBottom: 24, textTransform: 'uppercase' }}>{subtitle}</p>}
       {children}
     </div>
   );
 }
 
-function StatBox({ label, value, color = '#e2e8f0' }: { label: string; value: string | number; color?: string }) {
+function StatBox({ label, value, color = 'var(--color-cream)' }: { label: string; value: string | number; color?: string }) {
   return (
-    <div style={{ background: '#0f172a', borderRadius: 8, padding: 12 }}>
-      <div style={{ fontSize: 22, fontWeight: 800, color }}>{value}</div>
-      <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>{label}</div>
+    <div style={{ background: 'var(--color-void)', border: '3px solid var(--color-cream)', padding: 16 }}>
+      <div style={{ fontSize: 32, fontWeight: 900, color }}>{value}</div>
+      <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--color-cream)', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
     </div>
   );
 }
 
 function Badge({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div style={{ background: color + '22', border: `1px solid ${color}44`, borderRadius: 6, padding: '2px 8px', fontSize: 11 }}>
-      <span style={{ color: '#64748b' }}>{label} </span>
-      <span style={{ color, fontWeight: 700 }}>{value}</span>
+    <div style={{ background: color, border: '3px solid var(--color-void)', padding: '4px 12px', fontSize: 13, fontWeight: 900, display: 'flex', gap: 6, alignItems: 'center' }}>
+      <span style={{ color: 'var(--color-void)' }}>{label}</span>
+      <span style={{ color: 'var(--color-void)' }}>{value}</span>
     </div>
   );
 }
 
 function Empty() {
-  return <p style={{ color: '#475569', fontSize: 13 }}>No data yet.</p>;
+  return <p style={{ color: 'var(--color-lime)', fontSize: 14, fontWeight: 900 }}>EMPTY BUFFER</p>;
 }
 
 function retColor(r: number) {
-  if (r >= 70) return '#22c55e';
-  if (r >= 50) return '#eab308';
-  if (r >= 30) return '#f97316';
-  return '#ef4444';
+  if (r >= 70) return 'var(--color-lime)';
+  if (r >= 40) return 'var(--color-cream)';
+  return '#FF3333';
 }
